@@ -42,6 +42,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.services.news.News;
 import com.shatteredpixel.shatteredpixeldungeon.services.news.NewsImpl;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.UpdateImpl;
@@ -50,6 +51,11 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Button;
 import com.watabou.input.KeyEvent;
 import com.watabou.noosa.Game;
 import com.watabou.utils.FileUtils;
+
+import java.util.Arrays;
+
+import top.canyie.pine.Pine;
+import top.canyie.pine.callback.MethodHook;
 
 public class AndroidLauncher extends AndroidApplication {
 	
@@ -146,8 +152,22 @@ public class AndroidLauncher extends AndroidApplication {
 		Button.longClick = ViewConfiguration.getLongPressTimeout()/1000f;
 		
 		initialize(new ShatteredPixelDungeon(support), config);
-		
-	}
+
+        Pine.ensureInitialized();
+        try {
+            Pine.hook(Messages.class.getDeclaredMethod("get", Class.class, String.class, Object[].class), new MethodHook() {
+                @Override
+                public void afterCall(Pine.CallFrame callFrame) {
+                    String name = ((Class) callFrame.args[0]).getName();
+                    if (name.startsWith("com.shatteredpixel.shatteredpixeldungeon.actors.mobs.")) {
+                        throw new RuntimeException(Arrays.toString(Thread.currentThread().getStackTrace()).replace(", ", "\n"));
+                    }
+                }
+            });
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public AndroidAudio createAudio(Context context, AndroidApplicationConfiguration config) {

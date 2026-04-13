@@ -9,11 +9,11 @@ android {
 
     androidResources {
         localeFilters += ['en', 'zh-rCN', 'ko', 'ru', 'es', 'pt', 'fr', 'de', 'zh-rTW', 'ja', 'pl',
-                          'it', 'tr', 'vi', 'uk', 'id', 'cs', 'nl', 'sv', 'hu', 'fi', 'el', 'be', 'eo' ]
+                          'it', 'tr', 'vi', 'uk', 'id', 'cs', 'nl', 'sv', 'hu', 'fi', 'el', 'be', 'eo']
     }
 
     defaultConfig {
-        manifestPlaceholders = [appName:appName]
+        manifestPlaceholders = [appName: appName]
         applicationId appPackageName
 
         versionCode appVersionCode
@@ -72,12 +72,15 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
     natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
     implementation "com.badlogicgames.gdx-controllers:gdx-controllers-android:$gdxControllersVersion"
+
+    implementation "top.canyie.pine:core:0.3.0"
+    implementation 'net.bytebuddy:byte-buddy-android:1.18.8'
 }
 
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
 // so they get packed with the APK.
-task copyAndroidNatives() {
+tasks.register('copyAndroidNatives') {
     doFirst {
         file("libs/armeabi-v7a/").mkdirs()
         file("libs/arm64-v8a/").mkdirs()
