@@ -199,7 +199,15 @@ public class Window extends Group implements Signal.Listener<KeyEvent> {
 		}
 		destroy();
 	}
-	
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
 	@Override
 	public void destroy() {
 		super.destroy();

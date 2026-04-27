@@ -31,7 +31,13 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.PlatformSupport;
 
+import cn.tesseract.moddedpixeldungeon.ModdedPixelDungeon;
+
 public class ShatteredPixelDungeon extends Game {
+
+	static {
+		ModdedPixelDungeon.init();
+	}
 
 	//rankings from v1.2.3 and older use a different score formula, so this reference is kept
 	public static final int v1_2_3 = 628;

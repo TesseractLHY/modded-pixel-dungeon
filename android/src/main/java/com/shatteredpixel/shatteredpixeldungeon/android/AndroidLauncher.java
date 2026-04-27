@@ -144,10 +144,9 @@ public class AndroidLauncher extends AndroidApplication {
 		support.updateSystemUI();
 
 		Button.longClick = ViewConfiguration.getLongPressTimeout()/1000f;
-		
+
 		initialize(new ShatteredPixelDungeon(support), config);
-		
-	}
+    }
 
 	@Override
 	public AndroidAudio createAudio(Context context, AndroidApplicationConfiguration config) {
