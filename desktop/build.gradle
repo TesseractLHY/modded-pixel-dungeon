@@ -124,9 +124,8 @@ dependencies {
     implementation "org.lwjgl:lwjgl-tinyfd:3.3.3:natives-linux"
     implementation "org.lwjgl:lwjgl-tinyfd:3.3.3:natives-linux-arm64"
 
-    implementation 'org.ow2.asm:asm:9.7.1'
-    implementation 'net.bytebuddy:byte-buddy-agent:1.14.18'
-
     implementation project(':services:updates:githubUpdates')
     implementation project(':services:news:shatteredNews')
+
+    implementation 'com.github.TesseractLHY.crosshook:crosshook-desktop:-c0e7a09119-1'
 }

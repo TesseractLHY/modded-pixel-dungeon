@@ -2,7 +2,10 @@ package cn.tesseract.moddedpixeldungeon.hook;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoMob;
 import com.watabou.noosa.audio.Sample;
@@ -35,5 +38,32 @@ public class CommonHook {
         thiz.add(btnPush);
 
         thiz.resize(thiz.getWidth(), (int) btnPush.bottom() + 2);
+    }
+
+    @Hook(injector = Hook.TAIL)
+    public static void values(Callback<HeroClass> c) {
+        c.setReturnValue(new HeroClass[]{
+                HeroClass.CLERIC,
+                HeroClass.DUELIST,
+                HeroClass.HUNTRESS,
+                HeroClass.MAGE,
+                HeroClass.ROGUE,
+                HeroClass.WARRIOR,
+        });
+    }
+
+    @Hook(targetMethod = "STRReq", injector = Hook.HEAD)
+    public static void STRReq2(Callback<Weapon> c, int tier, int lvl) {
+        c.setReturnValue(100);
+    }
+
+    @Hook(injector = Hook.TAIL)
+    public static void STRReq(Callback<Weapon> c, int tier, int lvl) {
+        c.setReturnValue(0);
+    }
+
+    @Hook(injector = Hook.TAIL)
+    public static void getFromBundle(Callback<Messages> c,String key) {
+        c.setReturnValue("&&&" + c.getReturnValue());
     }
 }

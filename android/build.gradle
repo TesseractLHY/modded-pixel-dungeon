@@ -9,11 +9,11 @@ android {
 
     androidResources {
         localeFilters += ['en', 'zh-rCN', 'ko', 'ru', 'es', 'pt', 'fr', 'de', 'zh-rTW', 'ja', 'pl',
-                          'it', 'tr', 'vi', 'uk', 'id', 'cs', 'nl', 'sv', 'hu', 'fi', 'el', 'be', 'eo']
+                          'it', 'tr', 'vi', 'uk', 'id', 'cs', 'nl', 'sv', 'hu', 'fi', 'el', 'be', 'eo' ]
     }
 
     defaultConfig {
-        manifestPlaceholders = [appName: appName]
+        manifestPlaceholders = [appName:appName]
         applicationId appPackageName
 
         versionCode appVersionCode
@@ -73,7 +73,7 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
     implementation "com.badlogicgames.gdx-controllers:gdx-controllers-android:$gdxControllersVersion"
 
-    implementation "com.aliucord:Aliuhook:1.1.4"
+    implementation 'com.github.TesseractLHY.crosshook:crosshook-android:-c0e7a09119-1'
 }
 
 // called every time gradle gets executed, takes the native dependencies of

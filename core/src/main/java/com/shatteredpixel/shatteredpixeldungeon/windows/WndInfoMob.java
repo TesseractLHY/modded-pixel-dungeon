@@ -21,61 +21,23 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HealthBar;
-import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.PathFinder;
 
 public class WndInfoMob extends WndTitledMessage {
-
+	
 	public WndInfoMob( Mob mob ) {
 
 		super( new MobTitle( mob ), mob.info() );
-
+		
 	}
-
-	private static void tryPushMob(Mob mob) {
-		int oldPos = mob.pos;
-
-		Ballistica trajectory = new Ballistica(Dungeon.hero.pos, mob.pos, Ballistica.STOP_TARGET);
-		trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
-		WandOfBlastWave.throwChar(mob, trajectory, 2, true, false, Dungeon.hero);
-
-		if (mob.pos != oldPos || mob.rooted || Char.hasProp(mob, Char.Property.IMMOVABLE)) {
-			return;
-		}
-
-		int fallbackCell = -1;
-		for (int i : PathFinder.NEIGHBOURS8) {
-			int cell = oldPos + i;
-			if (!Dungeon.level.insideMap(cell)) continue;
-			if (!(Dungeon.level.passable[cell] || Dungeon.level.avoid[cell])) continue;
-			if (Actor.findChar(cell) != null) continue;
-			if (Char.hasProp(mob, Char.Property.LARGE) && !Dungeon.level.openSpace[cell]) continue;
-			if (Dungeon.level.trueDistance(Dungeon.hero.pos, cell) <= Dungeon.level.trueDistance(Dungeon.hero.pos, oldPos)) continue;
-
-			if (fallbackCell == -1 || Dungeon.level.trueDistance(Dungeon.hero.pos, cell) > Dungeon.level.trueDistance(Dungeon.hero.pos, fallbackCell)) {
-				fallbackCell = cell;
-			}
-		}
-
-		if (fallbackCell != -1) {
-			mob.sprite.move(oldPos, fallbackCell);
-			mob.move(fallbackCell, false);
-		}
-	}
-
+	
 	private static class MobTitle extends Component {
 
 		private static final int GAP	= 2;
